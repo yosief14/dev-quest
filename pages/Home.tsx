@@ -19,6 +19,7 @@ export default function Home() {
           {Jobs.map((job) => (
             <JobCard
               key={job.id}
+              id = {job.id.toString()}
               jobTitle={job.position}
               jobType={job.contract}
               location={job.location}
