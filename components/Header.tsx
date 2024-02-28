@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import styles from "./Header.module.css";
 import Image from "next/image";
 import desktopBanner from "@/public/bg-pattern-header.svg";
 import mobileBanner from "@/public/bg-pattern-header-mobile.svg";
@@ -24,23 +23,23 @@ const Header: FC = () => {
   }, []);
 
   return (
-    <div className="flex static">
+    <div className="flex bg-container-grey">
       <Image
         alt="Header Logo"
         src={isMobileView ? mobileBanner : desktopBanner}
-        className="w-screen h-[130px]  -z-10 absolute"
+        className="w-screen h-[130px]   absolute"
       ></Image>
       <Link href="/Home">
-      <div className="text-white font-bold absolute text-3xl left-[8.33333333%] top-11 cursor-pointer hover:text-gray-300 ">devQuest</div>
+        <div className="text-white font-bold absolute text-3xl left-[8.33333333%] top-11 cursor-pointer hover:text-gray-300 ">devQuest</div>
       </Link>
       <div className="inline-flex items-center absolute right-[8.333333%]  top-[52px]">
-      <Image alt="Sun Icon" src={sunIcon} className=" w-auto h-5 p-0.5 relative right-1"></Image>
-      <label className="relative cursor-pointer">
+        <Image alt="Sun Icon" src={sunIcon} className=" w-auto h-5 p-0.5 relative right-1"></Image>
+        <label className="relative cursor-pointer">
 
-        <input type="checkbox" value="" className="sr-only peer" />
-        <div className="w-[48px] h-[24px] bg-white peer-focus:outline-none rounded-full peer-checked:after:translate-x-6 after:absolute after:top-[4px] after:left-[4px] after:bg-indigo-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
-      </label>
-      <Image alt="Moon Icon" src={moonIcon} className=" w-auto h-4 p-0.5 relative left-1"></Image>
+          <input type="checkbox" value="" className="sr-only peer" />
+          <div className="w-[48px] h-[24px] bg-white peer-focus:outline-none rounded-full peer-checked:after:translate-x-6 after:absolute after:top-[4px] after:left-[4px] after:bg-indigo-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+        </label>
+        <Image alt="Moon Icon" src={moonIcon} className=" w-auto h-4 p-0.5 relative left-1"></Image>
       </div>
     </div>
   );
