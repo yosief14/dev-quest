@@ -32,7 +32,7 @@ Clone the project
 Go to the project directory  
 
 ~~~bash  
-  cd my-project
+  cd dev-quest
 ~~~
 
 Install dependencies  
@@ -44,5 +44,5 @@ bun install
 Start the server  
 
 ~~~bash  
-bun run start
+bun run dev
 ~~~  
