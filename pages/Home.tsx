@@ -1,13 +1,12 @@
 "use client"
-import React, { FC, useEffect, useState } from "react";
-import Input from "@/components/Input";
+import React, { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import searchIcon from "@/public/icon-search.svg";
-import sunIcon from "@/public/icon-sun.svg";
 import JobCard from "@/components/JobCard";
 import locationIcon from "@/public/icon-location.svg";
 import Jobs from "@/pages/api/data.json";
 import { AnimatePresence } from "framer-motion";
+import NewJobCard from "@/components/NewJobCard";
 export default function Home() {
 
 
@@ -28,9 +27,10 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center mt-24 bg-container-grey gap-10 pb-10">
+    <div className="flex flex-col min-h-[100vh] items-center mt-24 h-[100%] bg-container-grey gap-10 pb-10">
       <div className="w-5/6">
         <SearchBar inputList={homeSearchBarinputs} handleSearch={handleSearch} />
+        <NewJobCard />
         <div className="grid gap-5 gap-y-10   grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-20 ">
           <AnimatePresence>
             {jobs.slice(0, Jobs.length - 6).map((job) => (

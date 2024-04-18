@@ -1,12 +1,13 @@
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { Inter, Outfit } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
+const poppins = Outfit({ subsets: ['latin'] })
 
 export default function Home() {
   return (
     <main
-      className={`flex min-h-screen h- flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex flex-col items-center justify-between p-24 ${poppins.className}`}
     >
     </main>
   )
