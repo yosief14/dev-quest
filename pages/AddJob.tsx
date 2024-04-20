@@ -30,19 +30,10 @@ const formSchema = z.object({
     website: z.string(),
     positionLink: z.string(),
     position: z.string().min(3).max(50),
+  applicationDate: z.date(),
     postDate: z.date(),
-    applicationDate: z.date(),
     location: z.string().max(50),
     description: z.string().min(10).max(4000),
-    // logoBackground: z.string(),
-    // contract: z.string(),
-    // location: z.string(),
-    // apply: z.string(),
-    // description: z.string(),
-    // requirements: z.object({
-    //     content: z.string(),
-    //     items: z.array(z.string())
-    // }),
 })
 
 export default function AddJob() {

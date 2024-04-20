@@ -12,6 +12,7 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@hookform/resolvers": "^3.3.4",
+    "@libsql/client": "^0.6.0",
     "@mui/material": "^5.12.3",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
@@ -24,6 +25,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
+    "drizzle-orm": "^0.30.8",
     "eslint": "8.39.0",
     "eslint-config-next": "latest",
     "framer-motion": "^11.0.6",
@@ -40,5 +42,8 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.0.4",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.16"
   }
 }
