@@ -25,7 +25,6 @@ const JobCard: FC<JobCardProps> = ({
   id,
 }: JobCardProps) => {
   const icon = logo ? logo : "/logo.svg";
-  console.log(icon)
   return (
     <Link href={`/jobPosts/${id}`} >
       <motion.div

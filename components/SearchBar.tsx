@@ -11,11 +11,12 @@ interface InputListProps {
 const SearchBar: FC<InputListProps> = ({ inputList, handleSearch }: InputListProps) => {
 
   return (
-    <form className="flex flex-row relative bg-white rounded px-1 h-[60px]" >
+    <form className="flex flex-row relative bottom-5 bg-white rounded px-1 h-[60px]" >
       {inputList.map((input, index) => (
-        <>
+        <React.Fragment
+          key={input.id}
+        >
           <Input
-            key={input.id}
             icon={input.icon}
             placeholder={input.placeholder}
             jobFilter={input.jobFilter}
@@ -24,7 +25,7 @@ const SearchBar: FC<InputListProps> = ({ inputList, handleSearch }: InputListPro
           {index !== inputList.length - 1 ? (
             <div className="border-l" />
           ) : null}
-        </>
+        </React.Fragment>
       ))}
     </form>
   );

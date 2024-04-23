@@ -1,12 +1,10 @@
+'use client'
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import desktopBanner from "@/public/bg-pattern-header.svg";
 import mobileBanner from "@/public/bg-pattern-header-mobile.svg";
 import moonIcon from "@/public/icon-moon.svg";
 import sunIcon from "@/public/icon-sun.svg";
-import SearchBar from "./SearchBar";
-
-import { Switch } from "@mui/material";
 import Link from "next/link";
 const Header: FC = () => {
   const [isMobileView, setIsMobileView] = useState(false);
@@ -27,9 +25,9 @@ const Header: FC = () => {
       <Image
         alt="Header Logo"
         src={isMobileView ? mobileBanner : desktopBanner}
-        className="w-screen h-[130px]   absolute"
+        className="w-screen h-[130px] bg-container-grey "
       ></Image>
-      <Link href="/Home">
+      <Link href="/">
         <div className="text-white font-bold absolute text-3xl left-[8.33333333%] top-11 cursor-pointer hover:text-gray-300 ">devQuest</div>
       </Link>
       <div className="inline-flex items-center absolute right-[8.333333%]  top-[52px]">
