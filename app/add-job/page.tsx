@@ -1,4 +1,5 @@
 "use client"
+import { addJob } from "@/db/services/jobs"
 import Header from "@/components/Header"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
@@ -24,9 +25,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from "@/components/ui/textarea"
+import SignOutButton from "@/components/SignOut"
 const formSchema = z.object({
     company: z.string().min(3).max(50),
-    website: z.string().url(),
+    companySite: z.string().url(),
     positionLink: z.string(),
     positionTitle: z.string().min(3).max(50),
     applicationDate: z.date(),
@@ -41,7 +43,7 @@ export default function AddJob() {
             resolver: zodResolver(formSchema),
             defaultValues: {
                 company: "",
-                website: "",
+                companySite: "",
                 positionLink: "",
                 positionTitle: "",
                 postDate: new Date(),
@@ -52,7 +54,8 @@ export default function AddJob() {
             }
         })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        await addJob(values)
         console.log(values)
     }
     return (
@@ -109,7 +112,7 @@ export default function AddJob() {
                                 />
                                 <FormField
                                     control={form.control}
-                                    name='website'
+                                    name='companySite'
                                     render={({ field }) => (
                                         <FormItem className="px-7">
                                             <FormLabel className="font-bold text-base">Company's Website</FormLabel>
@@ -241,10 +244,10 @@ export default function AddJob() {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className="w-52 text-lg self">Submit</Button>
+                            <Button type="submit" className="w-52 text-lg self-center">Submit</Button>
                         </form>
                     </Form>
-
+                    <SignOutButton></SignOutButton>
                 </div>
             </main>
         </>

@@ -2,7 +2,7 @@ import { index, integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlit
 import type { AdapterAccount } from "next-auth/adapters"
 import { randomUUID } from "crypto"
 import { sql } from "drizzle-orm"
- 
+
 export const users = sqliteTable("user", {
   id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   name: text("name"),
@@ -10,7 +10,7 @@ export const users = sqliteTable("user", {
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image"),
 })
- 
+
 export const accounts = sqliteTable(
   "account",
   {
@@ -35,7 +35,7 @@ export const accounts = sqliteTable(
     }),
   })
 )
- 
+
 export const sessions = sqliteTable("session", {
   id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   sessionToken: text("sessionToken").notNull().unique(),
@@ -46,7 +46,7 @@ export const sessions = sqliteTable("session", {
 }, (s) => ({
   userIdIdx: index("Session_userId_index").on(s.userId),
 }))
- 
+
 export const verificationTokens = sqliteTable(
   "verificationToken",
   {
@@ -57,24 +57,24 @@ export const verificationTokens = sqliteTable(
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
-)   
+)
 
-export const jobs= sqliteTable('job', 
-{
-  id: text("id").primaryKey().$defaultFn(()=>randomUUID()),
-  positionTitle: text('positionTitle').notNull(),
-  positionLink: text('positionLink').notNull(),
-  comapny: text('company').notNull(),
-  companySite: text('companySite').notNull(),
-  postDate: text('postDate').notNull(),
-  applicationDate: text('applicationDate'),
-  userId: integer('id')
-    .notNull()
-    .references(()=> users.id, {onDelete: 'cascade'}),
-  createdAt: text('created_at')
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull()
-})
+export const jobs = sqliteTable('job',
+  {
+    id: text("id").primaryKey().$defaultFn(() => randomUUID()),
+    positionTitle: text('positionTitle').notNull(),
+    positionLink: text('positionLink').notNull(),
+    company: text('company').notNull(),
+    companySite: text('companySite').notNull(),
+    postDate: text('postDate').notNull(),
+    applicationDate: text('applicationDate'),
+    userId: integer('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: text('created_at')
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull()
+  })
 
 
 export type InsertUser = typeof users.$inferInsert;

@@ -1,8 +1,16 @@
 'use server'
 import { db } from '../db'
-import { jobs } from '../schema'
+import { InsertJobs, jobs } from '../schema'
+import { auth } from '@/auth'
 
-export async function addJob(id: number, { }) {
+export async function addJob(data: any) {
+    const session = await auth()
+    if (!session?.user) {
+        throw new Error("Unauthorized")
+    }
+    const valueToAdd = { ...data, userId: session.user.id }
+    console.log("🚀 ~ addJob ~ valueToAdd:", valueToAdd)
 
-    return ("hello World")
+    const retValue = await db.insert(jobs).values(valueToAdd)
+    return (JSON.stringify(retValue))
 }
