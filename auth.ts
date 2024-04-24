@@ -7,6 +7,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter"
 export const authConfig = {
   adapter: DrizzleAdapter(db),
   providers: [GitHub],
+  debug: true,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
