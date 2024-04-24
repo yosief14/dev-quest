@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Plus } from 'lucide-react'
-export default function () {
+export default function NewJobCard() {
     return (
         <main
             className={` flex flex-col items-center w-full mt-10 h-[50px] sm:h-[90px]`}

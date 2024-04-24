@@ -115,9 +115,9 @@ export default function AddJob() {
                                     name='companySite'
                                     render={({ field }) => (
                                         <FormItem className="px-7">
-                                            <FormLabel className="font-bold text-base">Company's Website</FormLabel>
+                                            <FormLabel className="font-bold text-base">Company URL</FormLabel>
                                             <FormControl>
-                                                <Input placeholder='Website URL' {...field} />
+                                                <Input placeholder="Website URL" {...field} />
                                             </FormControl>
                                             <FormDescription>
                                             </FormDescription>
