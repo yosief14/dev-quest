@@ -10,12 +10,12 @@
 
 ## TODO  ✅
 - [x] Seach bar functionality
-- [ ] Forms to add jobs
+- [x] Forms to add jobs
 - [ ] Tags to organize and update state of application
 - [ ] Auto fill feature to fill form from job post
 - [ ] Persist User session with cookies
 - [ ] Dark mode
-- [ ] User Authentication 
+- [x] User Authentication 
 - [ ] Accompanying chrome extention create jobs from link user is currently on
 - [ ] Resume and Cover Letter linking to each job application
 
