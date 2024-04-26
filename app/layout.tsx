@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Header from "@/components/Header";
 import Head from "next/head";
 import { Metadata } from 'next'
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
     title: 'Home',
@@ -19,7 +20,8 @@ export default function RootLayout({
     return (
         <>
             <html lang="en">
-                <body className="relative h-screen">{children}</body>
+                <body className="relative h-screen w-full">{children}
+                </body>
             </html>
         </>
     )

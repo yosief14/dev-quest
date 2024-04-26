@@ -28,9 +28,7 @@ const JobCard: FC<JobCardProps> = ({
   return (
     <Link href={`/jobPosts/${id}`} >
       <motion.div
-        animate={{ y: 0, opacity: 1 }}
         exit={{ y: 50, opacity: 0 }}
-        initial={{ y: 50, opacity: 0 }}
         transition={{ duration: 0.5 }}
         className="  bg-white rounded p-7">
         <div

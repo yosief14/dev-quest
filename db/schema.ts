@@ -37,7 +37,6 @@ export const accounts = sqliteTable(
 )
 
 export const sessions = sqliteTable("session", {
-  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   sessionToken: text("sessionToken").notNull().unique(),
   userId: text("userId")
     .notNull()

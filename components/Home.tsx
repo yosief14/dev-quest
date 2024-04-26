@@ -4,7 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import searchIcon from "@/public/icon-search.svg";
 import JobCard from "@/components/JobCard";
 import locationIcon from "@/public/icon-location.svg";
-import Jobs from "@/pages/api/data.json";
+import Jobs from "@/app/api/data.json";
 import { AnimatePresence } from "framer-motion";
 import NewJobCard from "@/components/NewJobCard";
 import Header from "./Header";
@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center bg-container-grey gap-10 pb-10">
+      <div className="flex flex-col bg-container-grey items-center gap-10 pb-10">
         <div className="w-5/6">
           <SearchBar inputList={homeSearchBarinputs} handleSearch={handleSearch} />
           <NewJobCard />
@@ -64,9 +64,15 @@ export default function Home() {
             </AnimatePresence>
           </div>
         </div>
-        <button onClick={() => setLoadMore(!loadMore)} className=" bg-dev-blue text-lg  text-white font-bold rounded-lg px-6 py-3 w-[140px]">
-          Load {loadMore ? "Less" : "More"}
-        </button>
+        {jobs.length <= Jobs.length - 6 ?
+          <span className="opacity-70 text-lg relative my-10">
+            No more jobs to show
+          </span> :
+
+          <button onClick={() => setLoadMore(!loadMore)} className=" bg-dev-blue text-lg  text-white font-bold rounded-lg px-6 py-3 w-[140px]">
+            Load {loadMore ? "Less" : "More"}
+          </button>
+        }
       </div>
     </>
   );
