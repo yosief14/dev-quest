@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <>
             <html lang="en">
-                <body className="relative h-screen w-full">{children}
+                <body className="relative bg-container-grey">{children}
                 </body>
             </html>
         </>

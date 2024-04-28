@@ -27,7 +27,6 @@ export default function Home() {
     });
     setJobs(filteredJobs);
   }
-
   return (
     <>
 

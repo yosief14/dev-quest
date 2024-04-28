@@ -6,7 +6,7 @@ export default function AddJobLayout({
 }: {
     children: React.ReactNode
 }) {
-    return <section className='h-screen'>{children}
+    return <section className='h-screen flex flex-col items-center bg-container-grey'>{children}
         <Toaster />
     </section>
 }
