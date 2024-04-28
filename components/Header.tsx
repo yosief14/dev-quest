@@ -6,7 +6,7 @@ import mobileBanner from "@/public/bg-pattern-header-mobile.svg";
 import moonIcon from "@/public/icon-moon.svg";
 import sunIcon from "@/public/icon-sun.svg";
 import Link from "next/link";
-const Header: FC = () => {
+export default function Header() {
   const [isMobileView, setIsMobileView] = useState(false);
   useEffect(() => {
     const matchQueryList = window.matchMedia("(max-width: 42rem)");
@@ -43,4 +43,3 @@ const Header: FC = () => {
   );
 };
 
-export default Header;

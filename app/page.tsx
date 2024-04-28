@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
-import Home from '@/components/Home'
+import { Home } from '@/components/Home'
 export const metadata: Metadata = {
     title: 'Dev-Quest',
 }

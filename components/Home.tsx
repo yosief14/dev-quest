@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import searchIcon from "@/public/icon-search.svg";
@@ -29,6 +30,7 @@ export default function Home() {
 
   return (
     <>
+
       <Header />
       <div className="flex flex-col bg-container-grey items-center gap-10 pb-10">
         <div className="w-5/6">
