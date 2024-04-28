@@ -24,11 +24,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from "@/components/ui/textarea"
-import SignOutButton from "@/components/SignOut"
 import { useToast } from "@/components/ui/use-toast"
 import { addJob } from "@/db/services/jobs"
 import { useState } from "react"
-import { is } from "drizzle-orm"
 const formSchema = z.object({
     company: z.string().min(3).max(50),
     companySite: z.string().url(),
@@ -64,9 +62,10 @@ export default function AddJob() {
         const result = true
         let toastMessage = {} as any
         if (result) {
+            form.reset()
             toastMessage = {
-                title: "Job Added",
-                description: "Your job has been added",
+                title: `${values.positionTitle} added`,
+                description: "Your job has been added! Check it out in the jobs page",
                 variant: "success",
             }
         }
@@ -84,11 +83,11 @@ export default function AddJob() {
     }
 
     return (
-        <Form {...form}>
-            {submitting ? <JobFormSkeleton /> :
+        submitting ? <JobFormSkeleton /> :
 
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col rounded-lg space-y-10 relative md:w-[700px] ">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col rounded-lg relative w-full md:w-[700px] ">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
                         <FormField
                             control={form.control}
                             name='positionTitle'
@@ -158,7 +157,7 @@ export default function AddJob() {
                                                 <Button
                                                     variant={"outline"}
                                                     className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
+                                                        "  text-left font-normal",
                                                         !field.value && "text-muted-foreground"
                                                     )}
                                                 >
@@ -201,7 +200,7 @@ export default function AddJob() {
                                                 <Button
                                                     variant={"outline"}
                                                     className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
+                                                        "pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
                                                     )}
                                                 >
@@ -265,10 +264,8 @@ export default function AddJob() {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="w-52 text-lg self-center">Submit</Button>
+                    <Button type="submit" className="w-52 mt-10 text-lg self-center">Submit</Button>
                 </form>
-            }
-            <button onClick={() => setSubmitting(!submitting)}>change view</button>
-        </Form>
+            </Form>
     )
 }
