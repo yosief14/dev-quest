@@ -35,7 +35,7 @@ const formSchema = z.object({
     applicationDate: z.date(),
     postDate: z.date(),
     location: z.string().max(50),
-    description: z.string().min(10).max(4000),
+    description: z.string().min(10).max(10000),
 })
 export default function AddJob() {
     const [submitting, setSubmitting] = useState(false);
@@ -57,9 +57,8 @@ export default function AddJob() {
         })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // const result = await addJob(values)
+        const result = await addJob(values)
         setSubmitting(true)
-        const result = true
         let toastMessage = {} as any
         if (result) {
             form.reset()

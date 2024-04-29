@@ -65,9 +65,11 @@ export const jobs = sqliteTable('job',
     positionLink: text('positionLink').notNull(),
     company: text('company').notNull(),
     companySite: text('companySite').notNull(),
-    postDate: text('postDate').notNull(),
-    applicationDate: text('applicationDate'),
-    userId: integer('userId')
+    postDate: text('postDate').default(sql`CURRENT_TIMESTAMP`).notNull(),
+    location: text('location').notNull(),
+    description: text('description').notNull(),
+    applicationDate: text('applicationDate').default('Not Apllied').notNull(),
+    userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     createdAt: text('created_at')

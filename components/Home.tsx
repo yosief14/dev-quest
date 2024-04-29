@@ -1,24 +1,35 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import searchIcon from "@/public/icon-search.svg";
 import JobCard from "@/components/JobCard";
 import locationIcon from "@/public/icon-location.svg";
 import Jobs from "@/app/api/data.json";
 import { AnimatePresence } from "framer-motion";
+import { getJobPosts } from "@/services/getJobs";
 import NewJobCard from "@/components/NewJobCard";
 import Header from "./Header";
-export default function Home() {
 
+export default function Home() {
 
   const [loadMore, setLoadMore] = useState(false);
   const [jobs, setJobs] = useState(Jobs); // Add type declaration for jobs array
+
+  useEffect(() => {
+    const dbJobs = async () => {
+      const jobs = await getJobPosts();
+      console.log(jobs)
+    };
+    dbJobs();
+  }, []);
+
   const homeSearchBarinputs = [
     { id: "1", icon: searchIcon, placeholder: "Filter by title...", jobFilter: "position" },
     { id: "2", icon: locationIcon, placeholder: "Filter by location...", jobFilter: "location" },
   ];
 
+  //! change keys to match the keys in the db
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
     const searchValue = e.target.value.toLowerCase();
     const filteredJobs = Jobs.filter((job) => {

@@ -1,4 +1,4 @@
-import getPost from "@/Services/getPost";
+import getPost from "@/services/getPost";
 import jobsPosts from "@/app/api/data.json";
 import CompanyIcon from "@/components/CompanyIcon";
 import Header from "@/components/Header";

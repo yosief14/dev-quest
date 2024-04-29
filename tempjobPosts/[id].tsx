@@ -1,5 +1,5 @@
 import { FC } from "react";
-import getPost from "@/Services/getPost";
+import getPost from "@/services/getPost";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import CompanyIcon from "@/components/CompanyIcon";
 import JobCard from "@/components/JobCard";
