@@ -46,9 +46,9 @@ const JobCard: FC<JobCardProps> = ({
         <div className="text-base text-dev-grey">
           {postedDays} • {jobType}
         </div>
-        <h1 className="text-xl  font-bold pt-3">{jobTitle}</h1>
+        <h1 className="text-xl line-clamp-1 font-bold pt-3">{jobTitle}</h1>
         <div className="text-base text-dev-grey pt-3">{company}</div>
-        <div className="text-sm text-dev-blue font-bold pt-9">{location}</div>
+        <div className="text-sm text-dev-blue font-bold pt-9">{location ? location : 'Remote'}</div>
       </motion.div>
     </Link>
   );

@@ -7,12 +7,11 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter"
 export const authConfig = {
   adapter: DrizzleAdapter(db),
   providers: [GitHub],
-  debug: true,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
 
-      const paths = ['/add-job']
+      const paths = ['/']
       const isProtected = paths.some((path) => nextUrl.pathname.startsWith(path))
 
       if (isProtected && !isLoggedIn) {

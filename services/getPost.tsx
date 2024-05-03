@@ -1,4 +1,8 @@
 import jobPost from "@/app/api/data.json";
+import { db } from "@/db/db";
+import { jobs } from "@/db/schema";
+import { eq } from "drizzle-orm";
+
 const getPostIdList = async () => {
     const postIds: { params: { id: string; }; }[] = [];
     jobPost.map((job) => {
@@ -24,10 +28,8 @@ const getPostIdListForParam = async () => {
 
 
 const getPostData = async (id: string) => {
-    const postData = await jobPost.find((post: any) => {
-        return post.id === Number(id)
-    });
-    return postData;
+    const retJob = await db.select().from(jobs).where(eq(jobs.id, id))
+    return retJob[0]
 }
 
 export default { getPostData, getPostIdList, getPostIdListForParam };

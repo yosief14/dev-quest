@@ -1,27 +1,43 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import searchIcon from "@/public/icon-search.svg";
 import JobCard from "@/components/JobCard";
 import locationIcon from "@/public/icon-location.svg";
 import Jobs from "@/app/api/data.json";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { getJobPosts } from "@/services/getJobs";
 import NewJobCard from "@/components/NewJobCard";
 import Header from "./Header";
 
+
 export default function Home() {
 
   const [loadMore, setLoadMore] = useState(false);
-  const [jobs, setJobs] = useState(Jobs); // Add type declaration for jobs array
+  const [jobs, setJobs] = useState(Array<any>); // Add type declaration for jobs array
 
+  const dbJobs = useMemo(() => {
+    return async () => {
+      const requestJobs = await getJobPosts() as Array<any>;
+      if (!requestJobs) {
+        throw new Error("Post not found");
+      }
+      requestJobs.map((job) => {
+        const url = new URL(job.companySite);
+        const domain = url.hostname;
+        job.logoBackground = "#F4F4F4";
+        job.logo = `https://icons.duckduckgo.com/ip3/${domain.replace('www.', '')}.ico`;
+        job.contract = 'Full Time'
+        job.postedAt = '69d ago'
+        job.position = job.positionTitle
+      });
+      setJobs(requestJobs)
+    }
+
+  }, []);
   useEffect(() => {
-    const dbJobs = async () => {
-      const jobs = await getJobPosts();
-      console.log(jobs)
-    };
-    dbJobs();
+    dbJobs()
   }, []);
 
   const homeSearchBarinputs = [
@@ -49,24 +65,28 @@ export default function Home() {
           <div className="grid gap-5 gap-y-10   grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-20 ">
             <AnimatePresence>
               {jobs.slice(0, Jobs.length - 6).map((job) => (
-                <JobCard
+                <motion.div
                   key={job.id}
-                  id={job.id.toString()}
-                  jobTitle={job.position}
-                  jobType={job.contract}
-                  location={job.location}
-                  company={job.company}
-                  postedDays={job.postedAt}
-                  logo={job.logo}
-                  logoBackground={job.logoBackground}
-                />
+                  initial={{ opacity: 0, y: 100 }}
+                  transition={{ duration: 0.5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <JobCard
+                    key={job.id}
+                    id={job.id.toString()}
+                    jobTitle={job.positionTitle}
+                    location={job.location}
+                    company={job.company}
+                    postedDays={job.postedAt}
+                    logo={job.logo}
+                    logoBackground={job.logoBackground}
+                  /></motion.div>
               ))}
-              {loadMore ? Jobs.slice(Jobs.length - 6, Jobs.length).map((job) => (
+              {loadMore ? jobs.slice(jobs.length - 6, jobs.length).map((job) => (
                 <JobCard
                   key={job.id}
                   id={job.id.toString()}
-                  jobTitle={job.position}
-                  jobType={job.contract}
+                  jobTitle={job.positionTitle}
                   location={job.location}
                   company={job.company}
                   postedDays={job.postedAt}
