@@ -61,7 +61,7 @@ export default async function JobPosts({ params }: JobPostsProps) {
                         </Link>
                     </div>
                     <div className=" flex flex-col bg-white rounded-xl w-[800px] p-[48px] gap-12 ">
-                        <div className="flex-row flex justify-between items-center">
+                        <div className="flex-row flex justify-letween top-0 items-center">
                             <div className="flex-col w-fit ">
                                 <span className="text-dev-grey">
                                 </span>
