@@ -16,10 +16,8 @@ async function getJobPosts(id: string) {
 };
 
 export async function generateStaticParams() {
-    const paths = await getPost.getPostIdListForParam();
-    const addedPaths = await getJobPostParams();
-    const newPaths = paths.concat(addedPaths)
-    return [...paths, addedPaths];
+    const paths = await getJobPostParams();
+    return paths;
 };
 
 async function getJobPostParams() {
