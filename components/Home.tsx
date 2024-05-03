@@ -69,9 +69,10 @@ export default function Home() {
               ))}
               {loadMore && filteredJobs.length > 8 ? filteredJobs.slice(filteredJobs.length - 6, filteredJobs.length).map((job) => (
 
-                <div className="translate-y-[-50px] animate-in duration-500 ">
+                <div
+                  key={job.id}
+                  className="translate-y-[-50px] animate-in duration-500 ">
                   <JobCard
-                    key={job.id}
                     id={job.id.toString()}
                     positionTitle={job.positionTitle}
                     location={job.location}
