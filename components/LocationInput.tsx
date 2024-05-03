@@ -8,7 +8,6 @@ export async function getLocations(inputValue: string) {
 
     const data = await locations.json();
 
-    console.log(data)
 
 
 
