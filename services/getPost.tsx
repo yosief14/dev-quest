@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import jobPost from "@/app/api/data.json";
 import { db } from "@/db/db";
 import { jobs } from "@/db/schema";
@@ -25,11 +26,13 @@ const getPostIdListForParam = async () => {
     return postIds;
 }
 
-
-
-const getPostData = async (id: string) => {
-    const retJob = await db.select().from(jobs).where(eq(jobs.id, id))
-    return retJob[0]
-}
-
+const getPostData = cache(async (id: string) => {
+    try {
+        const retJob = await db.select().from(jobs).where(eq(jobs.id, id))
+        return retJob[0]
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+})
 export default { getPostData, getPostIdList, getPostIdListForParam };

@@ -5,31 +5,37 @@ import { motion } from "framer-motion"
 
 interface JobCardProps {
   id?: string;
+  positionTitle?: string;
+  companySite: string;
+  postDate?: string;
+  appclicationDate?: string;
   postedDays?: string;
-  jobType?: string;
-  jobTitle?: string;
-  company?: string;
+  applicationDate?: string;
+  company: string;
   location?: string;
-  logo?: string;
-  logoBackground?: string;
 }
 
 const JobCard: FC<JobCardProps> = ({
-  postedDays,
-  jobType,
-  jobTitle,
-  company,
-  location,
-  logo,
-  logoBackground,
   id,
-}: JobCardProps) => {
-  const icon = logo ? logo : "/logo.svg";
+  positionTitle,
+  companySite,
+  postDate,
+  appclicationDate,
+  postedDays,
+  applicationDate,
+  location,
+  company,
+}
+  : JobCardProps) => {
+  //TODO add tagging feature for application status
+  //TODO add function to calculate the days since the job was posted
+  const url = new URL(companySite);
+  const domain = url.hostname;
+  const logoBackground = "#F4F4F4";
+  const icon = `https://icons.duckduckgo.com/ip3/${domain.replace('www.', '')}.ico`;
   return (
     <Link href={`/jobPosts/${id}`} >
-      <motion.div
-        exit={{ y: 50, opacity: 0 }}
-        transition={{ duration: 0.5 }}
+      <div
         className="  bg-white rounded p-7">
         <div
           style={{ backgroundColor: logoBackground }}
@@ -44,13 +50,13 @@ const JobCard: FC<JobCardProps> = ({
           />
         </div>
         <div className="text-base text-dev-grey">
-          {postedDays} • {jobType}
+          {postedDays}
         </div>
-        <h1 className="text-xl line-clamp-1 font-bold pt-3">{jobTitle}</h1>
+        <h1 className="text-xl line-clamp-1 font-bold pt-3">{positionTitle}</h1>
         <div className="text-base text-dev-grey pt-3">{company}</div>
         <div className="text-sm text-dev-blue font-bold pt-9">{location ? location : 'Remote'}</div>
-      </motion.div>
-    </Link>
+      </div>
+    </Link >
   );
 };
 

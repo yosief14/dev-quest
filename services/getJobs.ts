@@ -1,4 +1,5 @@
 'use server'
+import { cache } from 'react'
 import { db } from "@/db/db"
 import { eq } from "drizzle-orm"
 import { jobs } from "@/db/schema"
@@ -11,6 +12,7 @@ export async function getJobPosts(id: string = 'all') {
     }
     if (id === 'all') {
         const result = await db.select().from(jobs).where(eq(jobs.userId, session.user.id))
+        console.log(result)
         return result
     }
 }

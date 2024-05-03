@@ -263,7 +263,12 @@ export default function AddJob() {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="w-52 mt-10 text-lg self-center">Submit</Button>
+                    <button className="w-52  mt-10 text-lg self-center p-[3px] relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+                        <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+                            Submit
+                        </div>
+                    </button>
                 </form>
             </Form>
     )

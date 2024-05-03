@@ -6,14 +6,11 @@ import { db } from "@/db/db";
 import { Outfit } from "next/font/google";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { notFound } from "next/navigation";
 const poppins = Outfit({ subsets: ['latin'] })
 interface JobPostsProps {
     params: { id: string };
 }
-async function getJobPosts(id: string) {
-    const results = await getPost.getPostData(id);
-    return results;
-};
 
 export async function generateStaticParams() {
     const paths = await getJobPostParams();
@@ -27,25 +24,10 @@ async function getJobPostParams() {
     return result
 }
 
-
 export default async function JobPosts({ params }: JobPostsProps) {
-
-    const job: {
-        id: string;
-        positionTitle: string;
-        positionLink: string;
-        company: string;
-        companySite: string;
-        postDate: string;
-        location: string;
-        description: string;
-        applicationDate: string;
-        userId: string;
-        createdAt: string;
-    } = await getPost.getPostData(params.id);
-    //needed to use leading /
+    const job = await getPost.getPostData(params.id);
     if (!job) {
-        throw new Error("Post not found");
+        notFound();
     }
 
     const url = new URL(job.companySite);
@@ -56,12 +38,11 @@ export default async function JobPosts({ params }: JobPostsProps) {
         <>
             <Header />
             <main className={`bg-container-grey ${poppins.className}`}>
-                <div className="flex  relative flex-col items-center gap-10 justify-center bottom-6 ">
+                <div className="flex  relative flex-col translate-y-[-50px] top-[0]  animate-in duration-500  items-center gap-10 justify-center bottom-6 ">
                     <div className="flex flex-row justify-between bg-white h-[130px] items-center  sm:w-11/12  md:w-[800px] rounded-xl  overflow-hidden pr-[48px] ">
                         <div className="flex h-full flex-row items-center">
                             <div className=" h-full w-[130px] flex items-center justify-center">
                                 <div className=" w-14 rounded-xl overflow-hidden relative">
-
                                     <CompanyIcon
                                         iconPath={icon}
                                         iconBackground={'#F4F4F4'}
