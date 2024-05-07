@@ -35,7 +35,6 @@ export default function Home() {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
     const searchValue = e.target.value.toLowerCase();
     const filteredJobs = jobs.filter((job) => {
-      console.log(key)
       if (key === "position") return job.positionTitle.toLowerCase().includes(searchValue);
       if (key === "location") return job.location.toLowerCase().includes(searchValue);
     });
@@ -88,8 +87,11 @@ export default function Home() {
             {jobs.length === 0 ? "No jobs yet" : "No more jobs to show"}
           </span> :
 
-          <button onClick={() => setLoadMore(!loadMore)} className=" bg-dev-blue text-lg  text-white font-bold rounded-lg px-6 py-3 w-[140px]">
-            Load {loadMore ? "Less" : "More"}
+          <button onClick={() => setLoadMore(!loadMore)} className="w-52  mt-10 text-lg self-center p-[3px] relative">
+            <div className="absolute inset-0  bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+            <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+              Load {loadMore ? "Less" : "More"}
+            </div>
           </button>
         }
       </div>

@@ -7,7 +7,9 @@ import { Outfit } from "next/font/google";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { notFound } from "next/navigation";
+import parse, { Element, HTMLReactParserOptions } from 'html-react-parser';
 const poppins = Outfit({ subsets: ['latin'] })
+
 interface JobPostsProps {
     params: { id: string };
 }
@@ -33,7 +35,18 @@ export default async function JobPosts({ params }: JobPostsProps) {
     const url = new URL(job.companySite);
     const domain = url.hostname;
     const icon = `https://icons.duckduckgo.com/ip3/${domain.replace('www.', '')}.ico`;
-
+    const options: HTMLReactParserOptions = {
+        replace(domNode) {
+            if (
+                domNode instanceof Element &&
+                domNode.attribs &&
+                domNode.attribs.class === 'remove'
+            ) {
+                return <></>;
+            }
+        },
+    };
+    const description = parse(job.description, options);
     return (
         <>
             <Header />
@@ -71,7 +84,7 @@ export default async function JobPosts({ params }: JobPostsProps) {
                                 </span>
                                 <br />
                             </div>
-                            <Link href={job.positionLink} target='_blank' className=" bg-dev-blue text-base h-fit whitespace-pre text-white font-bold rounded-lg px-6 py-3 ">
+                            <Link href={job.positionLink} target='_blank' className=" ml-auto bg-dev-blue text-base h-fit whitespace-pre text-white font-bold rounded-lg px-6 py-3 ">
                                 Apply Now
                             </Link>
                         </div>
@@ -81,7 +94,7 @@ export default async function JobPosts({ params }: JobPostsProps) {
                         </span>
                         <section >
                             <h2 className="text-xl text-black mb-5 font-bold">Job Description</h2>
-                            <p className="whitespace-pre-line leading-snug text-lg ">{job.description}</p>
+                            {description}
                         </section>
                     </div>
                 </div >
