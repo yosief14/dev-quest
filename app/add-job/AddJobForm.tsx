@@ -1,5 +1,4 @@
 'use client'
-import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 import JobFormSkeleton from "./JobFormSkeleton"
 import { format } from "date-fns"
@@ -28,23 +27,59 @@ import { Input } from '@/components/ui/input'
 import { useToast } from "@/components/ui/use-toast"
 import { addJob } from "@/db/services/jobs"
 import { useState } from "react"
-const formSchema = z.object({
-    company: z.string().min(3).max(50),
-    companySite: z.string().url(),
-    positionLink: z.string(),
-    positionTitle: z.string().min(3).max(50),
-    applicationDate: z.date(),
-    postDate: z.date(),
-    location: z.string().max(50),
-    description: z.string().min(10).max(10000),
-})
-export default function AddJob() {
+import { jobFormSchema } from "@/schemas/jobFormSchema"
+import { JobFormInterface } from "@/interfaces/jobFormInterface"
+import dynamic from "next/dynamic"
+
+const ReactQuillNoSSR = dynamic(() => import("react-quill"), { ssr: false })
+const modules = {
+    toolbar: [
+        [{ header: '1' }, { header: '2' }, { font: [] }],
+        [{ size: [] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [
+            { list: 'ordered' },
+            { list: 'bullet' },
+            { indent: '-1' },
+            { indent: '+1' },
+        ],
+        ['link', 'image', 'video'],
+        ['clean'],
+    ],
+    clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+    },
+}
+/*
+ * Quill editor formats
+ * See https://quilljs.com/docs/formats/
+ */
+const formats = [
+    'header',
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+    'video',
+]
+export default function AddJob({ edit, jobData }: JobFormInterface) {
+    //TODO change to Suspense maybe https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#programmatic-form-submission
     const [submitting, setSubmitting] = useState(false);
     const { toast } = useToast()
+
     const form = useForm(
         {
-            resolver: zodResolver(formSchema),
-            defaultValues: {
+            resolver: zodResolver(jobFormSchema),
+            defaultValues: jobData || {
                 company: "",
                 companySite: "",
                 positionLink: "",
@@ -56,9 +91,10 @@ export default function AddJob() {
 
             }
         })
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+
+    async function onSubmit(values: z.infer<typeof jobFormSchema>) {
         console.log("🚀 ~ onSubmit ~ values:", values)
-        const result = await addJob(values)
+        const result = true //await addJob(values)
         setSubmitting(true)
         let toastMessage = {} as any
         if (result) {
@@ -238,7 +274,7 @@ export default function AddJob() {
                             control={form.control}
                             name='location'
                             render={({ field }) => (
-                                <FormItem className="px-7">
+                                <FormItem className="px-7 mt-5">
                                     <FormLabel className="font-bold text-base">Location</FormLabel>
                                     <FormControl>
                                         <Input placeholder='City, State' {...field} />
@@ -253,13 +289,13 @@ export default function AddJob() {
                             control={form.control}
                             name='description'
                             render={({ field }) => (
-                                <FormItem className="px-7">
+                                <FormItem className="px-7 mt-5">
                                     <FormLabel className="font-bold text-base">Description</FormLabel>
                                     <FormControl>
-                                        <ReactQuill
+                                        <ReactQuillNoSSR
                                             theme="snow"
                                             value={field.value}
-                                            onChange={field.onChange}></ReactQuill>
+                                            onChange={field.onChange}></ReactQuillNoSSR>
                                     </FormControl>
                                     <FormDescription>
                                     </FormDescription>
@@ -275,8 +311,7 @@ export default function AddJob() {
                         </button>
                     </form>
                 </Form>
-                <ReactQuill onChange={(values) => {
-                    console.log(values)
-                }} theme="snow"></ReactQuill>
-            </>)
+            </>
+    )
 }
+
