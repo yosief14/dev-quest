@@ -25,61 +25,22 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from "@/components/ui/use-toast"
-import { addJob } from "@/db/services/jobs"
+import { addJob, editJob } from "@/db/services/jobs"
 import { useState } from "react"
 import { jobFormSchema } from "@/schemas/jobFormSchema"
 import { JobFormInterface } from "@/interfaces/jobFormInterface"
 import dynamic from "next/dynamic"
-
+import handler from '@/services/editJob'
+//Forced To dynamically import this library because for some reasone this is the only library that 
 const ReactQuillNoSSR = dynamic(() => import("react-quill"), { ssr: false })
-const modules = {
-    toolbar: [
-        [{ header: '1' }, { header: '2' }, { font: [] }],
-        [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [
-            { list: 'ordered' },
-            { list: 'bullet' },
-            { indent: '-1' },
-            { indent: '+1' },
-        ],
-        ['link', 'image', 'video'],
-        ['clean'],
-    ],
-    clipboard: {
-        // toggle to add extra line breaks when pasting HTML:
-        matchVisual: false,
-    },
-}
-/*
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
-const formats = [
-    'header',
-    'font',
-    'size',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
-    'video',
-]
 export default function AddJob({ edit, jobData }: JobFormInterface) {
     //TODO change to Suspense maybe https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#programmatic-form-submission
     const [submitting, setSubmitting] = useState(false);
     const { toast } = useToast()
-
     const form = useForm(
         {
             resolver: zodResolver(jobFormSchema),
-            defaultValues: jobData || {
+            defaultValues: edit ? jobData : {
                 company: "",
                 companySite: "",
                 positionLink: "",
@@ -88,13 +49,12 @@ export default function AddJob({ edit, jobData }: JobFormInterface) {
                 applicationDate: new Date(),
                 location: "",
                 description: "",
-
             }
         })
 
     async function onSubmit(values: z.infer<typeof jobFormSchema>) {
-        console.log("🚀 ~ onSubmit ~ values:", values)
-        const result = true //await addJob(values)
+        console.log(jobData?.id)
+        const result = edit && jobData ? await editJob(values, jobData.id) : await addJob(values)
         setSubmitting(true)
         let toastMessage = {} as any
         if (result) {
@@ -107,8 +67,6 @@ export default function AddJob({ edit, jobData }: JobFormInterface) {
         }
         else {
             toastMessage = {
-                title: "Error",
-                description: "There was an error adding your job",
                 variant: "destructive",
             }
         }

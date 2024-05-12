@@ -19,7 +19,9 @@ export const authConfig = {
         redirectUrl.searchParams.append('callbackURL', nextUrl.href)
         return Response.redirect(redirectUrl)
       }
-
+      if (nextUrl.pathname.startsWith('/add-job/edit-job')) {
+        // console.log(nextUrl)
+      }
       return true
     },
   }

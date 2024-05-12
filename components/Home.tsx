@@ -1,20 +1,21 @@
 "use client"
-
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import searchIcon from "@/public/icon-search.svg";
 import JobCard from "@/components/JobCard";
 import locationIcon from "@/public/icon-location.svg";
 import Jobs from "@/app/api/data.json";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { getJobPosts } from "@/services/getJobs";
 import NewJobCard from "@/components/NewJobCard";
 import Header from "./Header";
+import { Job } from "@/types/Job";
 
 export default function Home() {
   const [loadMore, setLoadMore] = useState(false);
-  const [jobs, setJobs] = useState(Array<any>); // add type declaration for jobs array
-  const [filteredJobs, setFilteredJobs] = useState(Array<any>); // add type declaration for filteredJobs array
+  const [jobs, setJobs] = useState(Array<Job>); // add type declaration for jobs array
+  const [filteredJobs, setFilteredJobs] = useState(Array<Job>); // add type declaration for filteredJobs array
+  //TODO figure out why theres a delay and how to speed this call up
   useEffect(() => {
     async function dbJobs() {
       const requestJobs = await getJobPosts() as Array<any>;
@@ -48,37 +49,31 @@ export default function Home() {
         <div className="w-5/6">
           <SearchBar inputList={homeSearchBarinputs} handleSearch={handleSearch} />
           <NewJobCard />
-          <div className="grid gap-5 gap-y-10   grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-20 ">
+          <div className="grid gap-5 gap-y-14   grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-20 ">
             <AnimatePresence>
-              {filteredJobs.slice(0, Jobs.length - 6).map((job) => (
-                <div className="translate-y-[-50px] animate-in duration-500 "
-                  key={job.id}
-                // initial={{ opacity: 0, y: 100 }}
-                // transition={{ duration: 0.5 }}
-                // exit={{ opacity: 0, y: -100 }}
-                // animate={{ opacity: 1, y: 0 }}
-                >
-                  <JobCard
-                    id={job.id.toString()}
-                    positionTitle={job.positionTitle}
-                    location={job.location}
-                    company={job.company}
-                    postedDays={job.postedAt}
-                    companySite={job.companySite} /></div>
-              ))}
-              {loadMore && filteredJobs.length > 8 ? filteredJobs.slice(filteredJobs.length - 6, filteredJobs.length).map((job) => (
 
-                <div
-                  key={job.id}
-                  className="translate-y-[-50px] animate-in duration-500 ">
-                  <JobCard
-                    id={job.id.toString()}
-                    positionTitle={job.positionTitle}
-                    location={job.location}
-                    company={job.company}
-                    postedDays={job.postedAt}
-                    companySite={job.companySite} />
-                </div>)) : null}
+              {filteredJobs.slice(0, Jobs.length - 6)
+                .map((job) => (
+                  <div className="translate-y-[-50px] animate-in duration-500 "
+                    key={job.id}
+                  // initial={{ opacity: 0, y: 100 }}
+                  // transition={{ duration: 0.5 }}
+                  // exit={{ opacity: 0, y: -100 }}
+                  // animate={{ opacity: 1, y: 0 }}
+                  >
+                    <JobCard jobEntry={job} />
+                  </div>
+                ))}
+
+              {loadMore && filteredJobs.length > 8 ?
+                filteredJobs.slice(filteredJobs.length - 6, filteredJobs.length)
+                  .map((job) => (
+                    <div
+                      key={job.id}
+                      className="translate-y-[-50px] animate-in duration-500 ">
+                      <JobCard jobEntry={job} />
+                    </div>))
+                : null}
             </AnimatePresence>
           </div>
         </div>
@@ -86,8 +81,8 @@ export default function Home() {
           <span className="opacity-70 text-lg relative my-10">
             {jobs.length === 0 ? "No jobs yet" : "No more jobs to show"}
           </span> :
-
-          <button onClick={() => setLoadMore(!loadMore)} className="w-52  mt-10 text-lg self-center p-[3px] relative">
+          <button onClick={() => setLoadMore(!loadMore)}
+            className="w-52  mt-10 text-lg self-center p-[3px] relative">
             <div className="absolute inset-0  bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
             <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
               Load {loadMore ? "Less" : "More"}
