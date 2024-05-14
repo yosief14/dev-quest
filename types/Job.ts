@@ -1,5 +1,5 @@
 export type Job = {
-    applicationDate: string;
+    applicationDate: Date,
     company: string,
     companySite: string,
     description: string,
@@ -7,5 +7,5 @@ export type Job = {
     location: string,
     positionLink: string,
     positionTitle: string,
-    postDate: string,
-}
+    postDate: Date,
+} 

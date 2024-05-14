@@ -26,21 +26,45 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from "@/components/ui/use-toast"
 import { addJob, editJob } from "@/db/services/jobs"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { jobFormSchema } from "@/schemas/jobFormSchema"
-import { JobFormInterface } from "@/interfaces/jobFormInterface"
 import dynamic from "next/dynamic"
-import handler from '@/services/editJob'
+import { Job } from '@/types/Job'
 //Forced To dynamically import this library because for some reasone this is the only library that 
 const ReactQuillNoSSR = dynamic(() => import("react-quill"), { ssr: false })
-export default function AddJob({ edit, jobData }: JobFormInterface) {
+function jobCunstructor(jobId: string) {
+    const localJob = localStorage.getItem(jobId)
+
+    if (!localJob) {
+        throw new Error("Job not found")
+    }
+    const job = JSON.parse(localJob)
+    return {
+        id: job.id,
+        company: job.company,
+        companySite: job.companySite,
+        positionLink: job.positionLink,
+        positionTitle: job.positionTitle,
+        postDate: new Date(parseInt(job.postDate)),
+        applicationDate: new Date(parseInt(job.applicationDate)),
+        location: job.location,
+        description: job.description,
+    }
+
+}
+interface JobFormInterface {
+    edit?: boolean,
+    jobId?: string,
+}
+export default function AddJob({ edit, jobId }: JobFormInterface) {
     //TODO change to Suspense maybe https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#programmatic-form-submission
+    const [formData, setFormData] = useState({} as Job)
     const [submitting, setSubmitting] = useState(false);
     const { toast } = useToast()
     const form = useForm(
         {
             resolver: zodResolver(jobFormSchema),
-            defaultValues: edit ? jobData : {
+            defaultValues: edit ? formData : {
                 company: "",
                 companySite: "",
                 positionLink: "",
@@ -52,13 +76,19 @@ export default function AddJob({ edit, jobData }: JobFormInterface) {
             }
         })
 
+    useEffect(() => {
+
+        if (edit && jobId) {
+            const jobObject = jobCunstructor(jobId);
+            form.reset(jobObject)
+            setFormData(jobObject)
+        }
+    }, [])
     async function onSubmit(values: z.infer<typeof jobFormSchema>) {
-        console.log(jobData?.id)
-        const result = edit && jobData ? await editJob(values, jobData.id) : await addJob(values)
+        const result = edit && jobId ? await editJob(values, jobId) : await addJob(values)
         setSubmitting(true)
         let toastMessage = {} as any
         if (result) {
-            form.reset()
             toastMessage = {
                 title: `${values.positionTitle} added`,
                 description: "Your job has been added! Check it out in the jobs page",

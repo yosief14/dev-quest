@@ -11,9 +11,9 @@ import NewJobCard from "@/components/NewJobCard";
 import Header from "./Header";
 import { Job } from "@/types/Job";
 
-export default function Home() {
+export default function Home({ jobsProp }: { jobsProp: Job[] }) {
   const [loadMore, setLoadMore] = useState(false);
-  const [jobs, setJobs] = useState(Array<Job>); // add type declaration for jobs array
+  const [jobs, setJobs] = useState(jobsProp || Array<Job>); // add type declaration for jobs array
   const [filteredJobs, setFilteredJobs] = useState(Array<Job>); // add type declaration for filteredJobs array
   //TODO figure out why theres a delay and how to speed this call up
   useEffect(() => {
@@ -23,6 +23,9 @@ export default function Home() {
         throw new Error("post not found");
       }
       setJobs(requestJobs)
+      requestJobs.map((job) => {
+        localStorage.setItem(job.id, JSON.stringify(job))
+      })
       setFilteredJobs(requestJobs)
     }
     dbJobs()

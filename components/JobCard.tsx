@@ -38,7 +38,7 @@ export default function JobCard({ jobEntry }: { jobEntry: Job }) {
           <div className="text-sm text-dev-blue font-bold pt-9">{jobEntry.location ? jobEntry.location : 'Remote'}</div>
         </div>
       </Link >
-      <EditButton jobData={jobEntry} />
+      <EditButton jobId={jobEntry.id} />
     </>
   );
 };

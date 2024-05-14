@@ -29,7 +29,6 @@ export async function editJob(data: any, jobId: string) {
         console.log(data, jobId)
         const valueToEdit = { ...data }
         const retValue = await db.update(jobs).set(valueToEdit).where(and(eq(jobs.id, jobId), eq(jobs.userId, session.user.id)))
-        console.log(JSON.stringify(retValue))
         return (JSON.stringify(retValue))
     } catch (e) {
         return (JSON.stringify(e))
