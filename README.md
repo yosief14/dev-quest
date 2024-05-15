@@ -14,7 +14,7 @@
 - [x] Seach bar functionality
 - [x] User Authentication 
 - [x] Forms to add jobs
-- [ ] Edit Entries 
+- [x] Edit Entries 
 - [ ] Auto fill feature
 - [ ] Dark mode
 - [ ] Kanban Board Presentation of entries
