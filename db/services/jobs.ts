@@ -1,7 +1,7 @@
 'use server'
 import { and, eq } from 'drizzle-orm'
 import { db } from '../db'
-import { InsertJobs, jobs } from '../schema'
+import { jobs } from '../schema'
 import { auth } from '@/auth'
 
 export async function addJob(data: any) {
