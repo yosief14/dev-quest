@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import Home from '@/components/Home'
-import { getJobPosts } from '@/services/getJobs'
+import { getJobPosts } from '@/db/services/jobs'
 export const metadata: Metadata = {
     title: 'Dev-Quest',
 }

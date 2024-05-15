@@ -6,7 +6,7 @@ import JobCard from "@/components/JobCard";
 import locationIcon from "@/public/icon-location.svg";
 import Jobs from "@/app/api/data.json";
 import { AnimatePresence } from "framer-motion";
-import { getJobPosts } from "@/services/getJobs";
+import { getJobPosts } from "@/db/services/jobs";
 import NewJobCard from "@/components/NewJobCard";
 import Header from "./Header";
 import { Job } from "@/types/Job";
@@ -14,22 +14,22 @@ import { Job } from "@/types/Job";
 export default function Home({ jobsProp }: { jobsProp: Job[] }) {
   const [loadMore, setLoadMore] = useState(false);
   const [jobs, setJobs] = useState(jobsProp || Array<Job>); // add type declaration for jobs array
-  const [filteredJobs, setFilteredJobs] = useState(Array<Job>); // add type declaration for filteredJobs array
+  const [filteredJobs, setFilteredJobs] = useState(jobsProp || Array<Job>); // add type declaration for filteredJobs array
   //TODO figure out why theres a delay and how to speed this call up
   useEffect(() => {
-    async function dbJobs() {
-      const requestJobs = await getJobPosts() as Array<any>;
-      if (!requestJobs) {
-        throw new Error("post not found");
-      }
-      setJobs(requestJobs)
-      requestJobs.map((job) => {
+    function dbJobs() {
+      // const requestJobs = await getJobPosts() as Array<any>;
+      // if (!requestJobs) {
+      //   throw new Error("post not found");
+      // }
+      // setJobs(requestJobs)
+      if (!jobsProp) { console.log("No jobs found") }
+      jobsProp.map((job) => {
         localStorage.setItem(job.id, JSON.stringify(job))
       })
-      setFilteredJobs(requestJobs)
     }
     dbJobs()
-  }, []);
+  }, [jobsProp]);
 
   const homeSearchBarinputs = [
     { id: "1", icon: searchIcon, placeholder: "Filter by title...", jobFilter: "position" },

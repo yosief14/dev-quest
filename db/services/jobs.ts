@@ -34,3 +34,15 @@ export async function editJob(data: any, jobId: string) {
         return (JSON.stringify(e))
     }
 }
+
+export async function getJobPosts(id: string = 'all') {
+    //if the session.id is not equal to the user.id, return unauthorized
+    const session = await auth()
+    if (!session) {
+        return new Response('Unauthorized', { status: 401 })
+    }
+    if (id === 'all') {
+        const result = await db.select().from(jobs).where(eq(jobs.userId, session.user.id))
+        return result
+    }
+}

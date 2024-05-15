@@ -1,4 +1,4 @@
-import getPost from "@/services/getPost";
+import getPost from "@/services/getPostParams";
 import CompanyIcon from "@/components/CompanyIcon";
 import Header from "@/components/Header";
 import { jobs } from "@/db/schema";
