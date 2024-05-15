@@ -30,6 +30,7 @@ import { useEffect, useState } from "react"
 import { jobFormSchema } from "@/schemas/jobFormSchema"
 import dynamic from "next/dynamic"
 import { Job } from '@/types/Job'
+import { AutoCompleteDialog } from './AutoCompleteDialog'
 //Forced To dynamically import this library because for some reasone this is the only library that 
 const ReactQuillNoSSR = dynamic(() => import("react-quill"), { ssr: false })
 function jobCunstructor(jobId: string) {
@@ -50,7 +51,6 @@ function jobCunstructor(jobId: string) {
         location: job.location,
         description: job.description,
     }
-
 }
 interface JobFormInterface {
     edit?: boolean,
@@ -60,6 +60,7 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
     //TODO change to Suspense maybe https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#programmatic-form-submission
     const [formData, setFormData] = useState({} as Job)
     const [submitting, setSubmitting] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
     const { toast } = useToast()
     const form = useForm(
         {
@@ -77,13 +78,16 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
         })
 
     useEffect(() => {
-
         if (edit && jobId) {
             const jobObject = jobCunstructor(jobId);
             form.reset(jobObject)
             setFormData(jobObject)
         }
+        else {
+            setIsDialogOpen(true)
+        }
     }, [])
+
     async function onSubmit(values: z.infer<typeof jobFormSchema>) {
         const result = edit && jobId ? await editJob(values, jobId) : await addJob(values)
         setSubmitting(true)
@@ -109,6 +113,7 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
     return (
         submitting ? <JobFormSkeleton /> :
             <>
+                <AutoCompleteDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col rounded-lg relative w-full md:w-[700px] ">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
@@ -299,6 +304,13 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
                         </button>
                     </form>
                 </Form>
+
+                <button onClick={() => setIsDialogOpen(true)} className="w-52  text-lg self-center p-[3px] relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+                    <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+                        Auto Fill
+                    </div>
+                </button>
             </>
     )
 }

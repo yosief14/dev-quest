@@ -1,5 +1,5 @@
+import { AutoCompleteDialog } from "./AutoCompleteDialog"
 import Header from "@/components/Header"
-import SignOutButton from "@/components/SignOut"
 import AddJobForm from "./AddJobForm"
 import { Separator } from "@/components/ui/separator"
 

@@ -30,7 +30,7 @@ export default function Header() {
       <Link href="/">
         <div className="text-white font-bold absolute text-3xl left-[8.33333333%] top-11 cursor-pointer hover:text-gray-300 ">devQuest</div>
       </Link>
-      <div className="inline-flex items-center absolute right-[8.333333%]  top-[52px]">
+      {/* <div className="inline-flex items-center absolute right-[8.333333%]  top-[52px]">
         <Image alt="Sun Icon" src={sunIcon} className=" w-auto h-5 p-0.5 relative right-1"></Image>
         <label className="relative cursor-pointer">
 
@@ -38,7 +38,7 @@ export default function Header() {
           <div className="w-[48px] h-[24px] bg-white peer-focus:outline-none rounded-full peer-checked:after:translate-x-6 after:absolute after:top-[4px] after:left-[4px] after:bg-indigo-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
         </label>
         <Image alt="Moon Icon" src={moonIcon} className=" w-auto h-4 p-0.5 relative left-1"></Image>
-      </div>
+      </div> */}
     </div>
   );
 };

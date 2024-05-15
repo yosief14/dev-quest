@@ -11,3 +11,7 @@ export const jobFormSchema = z.object({
     location: z.string().max(50),
     description: z.string().min(10).max(10000),
 })
+
+export const autoCompleteSchema = z.object({
+    positionLink: z.string().url(),
+})
