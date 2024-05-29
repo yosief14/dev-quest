@@ -33,7 +33,11 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "app/aiTest/page.tsx",
+    "app/aiTest/page.js",
+    "workers/worker.js",
+    "workers/worker.js"
   ],
   "exclude": [
     "node_modules"

@@ -52,11 +52,9 @@ function jobCunstructor(jobId: string) {
         description: job.description,
     }
 }
-interface JobFormInterface {
-    edit?: boolean,
-    jobId?: string,
-}
-export default function AddJob({ edit, jobId }: JobFormInterface) {
+
+export default function AddJob({ edit, jobId }: { edit?: boolean, jobId?: string }
+) {
     //TODO change to Suspense maybe https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#programmatic-form-submission
     const [formData, setFormData] = useState({} as Job)
     const [submitting, setSubmitting] = useState(false);
@@ -92,6 +90,7 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
         const result = edit && jobId ? await editJob(values, jobId) : await addJob(values)
         setSubmitting(true)
         let toastMessage = {} as any
+
         if (result) {
             toastMessage = {
                 title: `${values.positionTitle} added`,
@@ -114,7 +113,7 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
         submitting ? <JobFormSkeleton /> :
             <>
                 <AutoCompleteDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
-                <Form {...form}>
+                <Form  {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col rounded-lg relative w-full md:w-[700px] ">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
                             <FormField
@@ -296,21 +295,23 @@ export default function AddJob({ edit, jobId }: JobFormInterface) {
                                 </FormItem>
                             )}
                         />
-                        <button className="w-52  mt-10 text-lg self-center p-[3px] relative">
+                        <button type='submit' className="sm:w-52  sm:text-lg text-xl p-[3px] relative mt-10 mx-7">
                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-                            <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+                            <div className="px-8 py-3  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
                                 Submit
                             </div>
                         </button>
                     </form>
+                    <div className='w-full px-7 sm:px-0 sm:w-auto sm:bottom-[98px] sm:right-7 relative sm:self-end  '>
+                        <button onClick={() => setIsDialogOpen(true)} className="sm:w-52 w-full self-center text-xl sm:text-lg p-[3px] relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+                            <div className="px-8 py-3  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+                                Autofill
+                            </div>
+                        </button>
+                    </div>
                 </Form>
 
-                <button onClick={() => setIsDialogOpen(true)} className="w-52  text-lg self-center p-[3px] relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-                    <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
-                        Auto Fill
-                    </div>
-                </button>
             </>
     )
 }
