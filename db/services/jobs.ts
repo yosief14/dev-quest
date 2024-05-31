@@ -2,7 +2,6 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '../db'
 import { jobs } from '../schema'
-import puppeteer from 'puppeteer';
 import { auth } from '@/auth'
 
 export async function addJob(data: any) {
@@ -49,33 +48,6 @@ export async function getJobPosts(id: string = 'all') {
 }
 
 export async function autoFill(url: string) {
-   
-    // const browser = await puppeteer.launch();
-    // const page = await browser.newPage();
-    // console.log(url)
-    // await page.goto(url);
-    // console.log(typeof page.content())
-    // // console.log("CALLLLED")
-    // const content = await page.content()
-    // const resultHtml = JSON.stringify(content)
-    // return resultHtml
-    // const session = await auth()
-    // if (!session?.user) {
-    //     throw new Error("Unauthorized")
-    // }
 
-    // const header: RequestInit = {
-    //     mode: 'cors',
-    //     method: 'GET',
-    // }
-    // try {
-    //     const response = await fetch(url, header)
-    //     console.log(response)
-    //     return JSON.stringify(response.body)
-    // }
-    // catch (error) {
-    //     console.log(error)
-    //     return JSON.stringify(error)
-    // }
 
 }

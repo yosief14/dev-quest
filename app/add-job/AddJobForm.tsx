@@ -30,7 +30,6 @@ import { useEffect, useState } from "react"
 import { jobFormSchema } from "@/schemas/jobFormSchema"
 import dynamic from "next/dynamic"
 import { Job } from '@/types/Job'
-import { AutoCompleteDialog } from './AutoCompleteDialog'
 //Forced To dynamically import this library because for some reasone this is the only library that 
 const ReactQuillNoSSR = dynamic(() => import("react-quill"), { ssr: false })
 function jobCunstructor(jobId: string) {
@@ -58,7 +57,6 @@ export default function AddJob({ edit, jobId }: { edit?: boolean, jobId?: string
     //TODO change to Suspense maybe https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#programmatic-form-submission
     const [formData, setFormData] = useState({} as Job)
     const [submitting, setSubmitting] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
     const { toast } = useToast()
     const form = useForm(
         {
@@ -80,9 +78,6 @@ export default function AddJob({ edit, jobId }: { edit?: boolean, jobId?: string
             const jobObject = jobCunstructor(jobId);
             form.reset(jobObject)
             setFormData(jobObject)
-        }
-        else {
-            setIsDialogOpen(true)
         }
     }, [])
 
@@ -112,7 +107,6 @@ export default function AddJob({ edit, jobId }: { edit?: boolean, jobId?: string
     return (
         submitting ? <JobFormSkeleton /> :
             <>
-                <AutoCompleteDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
                 <Form  {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col rounded-lg relative w-full md:w-[700px] ">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
@@ -295,21 +289,13 @@ export default function AddJob({ edit, jobId }: { edit?: boolean, jobId?: string
                                 </FormItem>
                             )}
                         />
-                        <button type='submit' className="sm:w-52  sm:text-lg text-xl p-[3px] relative mt-10 mx-7">
+                        <button type='submit' className="sm:w-52 self-center  sm:text-lg text-xl p-[3px] relative mt-10 mx-7">
                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
                             <div className="px-8 py-3  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
                                 Submit
                             </div>
                         </button>
                     </form>
-                    <div className='w-full px-7 sm:px-0 sm:w-auto sm:bottom-[98px] sm:right-7 relative sm:self-end  '>
-                        <button onClick={() => setIsDialogOpen(true)} className="sm:w-52 w-full self-center text-xl sm:text-lg p-[3px] relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-                            <div className="px-8 py-3  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
-                                Autofill
-                            </div>
-                        </button>
-                    </div>
                 </Form>
 
             </>

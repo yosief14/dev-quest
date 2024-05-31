@@ -1,6 +1,6 @@
 'use client'
 import { Copy } from "lucide-react"
-import { Dispatch, SetStateAction, Suspense } from "react"
+import { Dispatch, SetStateAction, Suspense, use, useCallback, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -27,7 +27,9 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { autoFill } from "@/db/services/jobs"
+
 export function AutoCompleteDialog({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+
     const form = useForm<z.infer<typeof autoCompleteSchema>>({
         resolver: zodResolver(autoCompleteSchema),
         defaultValues: {
@@ -35,8 +37,9 @@ export function AutoCompleteDialog({ isOpen, setIsOpen }: { isOpen: boolean, set
         }
     })
 
+
     async function onSubmit(values: z.infer<typeof autoCompleteSchema>) {
-        const result = await autoFill(values.positionLink)
+        const result = true //await urlToText(values.positionLink)
         if (result) {
             console.log(result)
         }
@@ -66,7 +69,9 @@ export function AutoCompleteDialog({ isOpen, setIsOpen }: { isOpen: boolean, set
                 </form>
             </Form>
         )
+
     }
+
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="sm:max-w-md space-y-5">
